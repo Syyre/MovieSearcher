@@ -3,6 +3,7 @@ import bg from "./assets/BG.png";
 import Search from "./components/search";
 import Spinner from "./components/spinner";
 import MovieCard from "./components/MovieCard";
+import { useDebounce } from "react-use";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -20,6 +21,9 @@ const App = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+
+  useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
 
   const fetchMovies = async (query = "") => {
     setIsLoading(true);
@@ -38,7 +42,7 @@ const App = () => {
       if (data.response === "False") {
         setErrorMsg(data.error);
       }
-
+      console.log("Movies fetched:", data.results);
       setMovies(data.results);
     } catch (error) {
       setErrorMsg("Failed to fetch movies, please try again later.");
@@ -49,8 +53,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetchMovies(searchTerm);
-  }, [searchTerm]);
+    fetchMovies(debouncedSearchTerm);
+  }, [debouncedSearchTerm]);
 
   return (
     <div>

@@ -22,7 +22,11 @@ const MovieCard = ({ movie }) => {
           <p className="lang">{movie.original_language}</p>
           <span>•</span>
 
-          <p className="year">{movie.release_date.split("-")[0]}</p>
+          {movie.release_date ? (
+            <p className="year">{movie.release_date.split("-")[0]}</p>
+          ) : (
+            <p className="year">Unknown</p>
+          )}
         </div>
       </div>
     </div>
