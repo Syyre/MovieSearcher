@@ -9,18 +9,21 @@ const MovieCard = ({ movie }) => {
           alt={movie.title}
         />
       ) : (
-        <div className="no-image">No Image</div>
+        <img src="src/assets/No-Poster.png" alt="No Image Available" />
       )}
-      <div className="content">
-        <div className="rating">
-          <img src="src/assets/Star.svg" alt="Star Icon" />
-          <p>{movie.vote_average}</p>
-        </div>
-        <span>•</span>
-        <p className="lang">{movie.original_language}</p>
-        <span>•</span>
+      <div className="mt-4">
+        <h3>{movie.title}</h3>
+        <div className="content">
+          <div className="rating">
+            <img src="src/assets/Star.svg" alt="Star Icon" />
+            <p>{movie.vote_average}</p>
+          </div>
+          <span>•</span>
+          <p className="lang">{movie.original_language}</p>
+          <span>•</span>
 
-        <p className="year">{movie.release_date.split("-")[0]}</p>
+          <p className="year">{movie.release_date.split("-")[0]}</p>
+        </div>
       </div>
     </div>
   );
