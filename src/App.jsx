@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import bg from "./assets/BG.png";
 import Search from "./components/search";
 import Spinner from "./components/spinner";
+import MovieCard from "./components/MovieCard";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -41,7 +42,7 @@ const App = () => {
       setErrorMsg("Failed to fetch movies, please try again later.");
       console.error("Error fetching movies:", error);
     } finally {
-      setIsLoading(true);
+      setIsLoading(false);
     }
   };
 
@@ -63,29 +64,18 @@ const App = () => {
             <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           </header>
 
-          <section>
-            <h2>All Movies</h2>
+          <section className="all-movies">
+            <h2 className="mg-[20px]">All Movies</h2>
             {isLoading ? (
               <Spinner />
             ) : errorMsg ? (
               <p className="error">{errorMsg}</p>
             ) : movies.length > 0 ? (
-              <div className="movies">
+              <ul>
                 {movies.map((movie) => (
-                  <div key={movie.id} className="movie-card">
-                    {movie.poster_path ? (
-                      <img
-                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                        alt={movie.title}
-                      />
-                    ) : (
-                      <div className="no-image">No Image</div>
-                    )}
-                    <h3>{movie.title}</h3>
-                    <p className="text-white">Rating: {movie.vote_average}</p>
-                  </div>
+                  <MovieCard key={movie.id} movie={movie} />
                 ))}
-              </div>
+              </ul>
             ) : (
               <p>No movies found.</p>
             )}
